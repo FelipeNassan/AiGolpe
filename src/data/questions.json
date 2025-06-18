@@ -1,0 +1,431 @@
+[
+  {
+    "question": "Qual destes golpes online é mais comum em apps de mensagens?",
+    "options": [
+      { "label": "A", "text": "Venda de terrenos rurais" },
+      { "label": "B", "text": "Golpe do falso parente pedindo dinheiro" },
+      { "label": "C", "text": "Roubo de identidade por escaneamento de íris" },
+      { "label": "D", "text": "Venda de moedas falsas" }
+    ],
+    "correct": "B",
+    "tip": "O golpe do falso parente é muito comum em aplicativos de mensagens porque se aproveita da confiança que as pessoas têm em contatos próximos para pedir dinheiro de forma urgente, enganando a vítima rapidamente."
+  },
+  {
+    "question": "Qual golpe envolve a venda de equipamentos fotográficos com fotos falsas de anúncios?",
+    "options": [
+      { "label": "A", "text": "Phishing bancário" },
+      { "label": "B", "text": "Pirâmide financeira" },
+      { "label": "C", "text": "Venda de produto inexistente com imagens roubadas da internet" },
+      { "label": "D", "text": "Golpe do motoboy" }
+    ],
+    "correct": "C",
+    "tip": "Nesse golpe, golpistas usam imagens reais e atraentes para anunciar equipamentos fotográficos que não existem ou não serão entregues, enganando compradores interessados."
+  },
+  {
+    "question": "Qual fraude é comum no mercado de livros digitais?",
+    "options": [
+      { "label": "A", "text": "Falsificação de identidade de autores" },
+      { "label": "B", "text": "Venda de livros com conteúdo copiado ou inexistente" },
+      { "label": "C", "text": "Assinatura de revistas físicas sem envio" },
+      { "label": "D", "text": "Desconto vitalício em cursos presenciais" }
+    ],
+    "correct": "B",
+    "tip": "No mercado digital, é comum que sejam vendidos livros com conteúdos plagiados ou mesmo arquivos vazios, lesando o consumidor que acredita estar adquirindo um produto legítimo."
+  },
+  {
+    "question": "Qual fraude é comum na venda de ingressos de cinema online?",
+    "options": [
+      { "label": "A", "text": "Ingressos clonados ou já utilizados" },
+      { "label": "B", "text": "Vendas apenas em dinheiro vivo" },
+      { "label": "C", "text": "Venda de ingressos para filmes inexistentes" },
+      { "label": "D", "text": "Desvio de pipoca do cinema" }
+    ],
+    "correct": "A",
+    "tip": "A clonagem de ingressos é comum, onde golpistas vendem ingressos que já foram usados ou são falsificados, causando prejuízo e frustração para os compradores."
+  },
+  {
+    "question": "Qual prática fraudulenta impacta diretamente artistas em plataformas de streaming?",
+    "options": [
+      { "label": "A", "text": "Roubo de identidade de ouvintes" },
+      { "label": "B", "text": "Vendas de álbuns físicos não entregues" },
+      { "label": "C", "text": "Bots que geram streams falsos e desviam royalties" },
+      { "label": "D", "text": "Compartilhamento legal de senhas" }
+    ],
+    "correct": "C",
+    "tip": "O uso de bots para gerar streams falsos inflaciona artificialmente o número de reproduções, desviando os royalties que deveriam ir para os artistas reais."
+  },
+  {
+    "question": "Qual golpe é comum em reservas de hospedagem falsas?",
+    "options": [
+      { "label": "A", "text": "Overbooking legítimo" },
+      { "label": "B", "text": "Desconto de fidelidade falsa" },
+      { "label": "C", "text": "Sites clones que coletam dados e não fazem reserva" },
+      { "label": "D", "text": "Promoção de café da manhã ilimitado" }
+    ],
+    "correct": "C",
+    "tip": "Golpistas criam sites que imitam plataformas de reserva legítimas, coletando dados pessoais e pagamentos sem jamais efetuar a reserva, prejudicando o consumidor."
+  },
+  {
+    "question": "Que tipo de fraude pode ocorrer em sites de avaliação de restaurantes?",
+    "options": [
+      { "label": "A", "text": "Avaliações falsas pagas para inflar ou prejudicar reputações" },
+      { "label": "B", "text": "Clonagem de cardápio" },
+      { "label": "C", "text": "Oferta de sobremesa gratuita falsa" },
+      { "label": "D", "text": "Hackeamento do cardápio digital" }
+    ],
+    "correct": "A",
+    "tip": "Avaliações falsas são usadas para manipular a reputação de estabelecimentos, podendo prejudicar ou beneficiar injustamente restaurantes, enganando consumidores."
+  },
+  {
+    "question": "Qual golpe é frequente na venda de ingressos de eventos esportivos pela internet?",
+    "options": [
+      { "label": "A", "text": "Vendas por cambistas oficiais" },
+      { "label": "B", "text": "Leilões com garantia estendida" },
+      { "label": "C", "text": "Ingressos falsificados ou não entregues" },
+      { "label": "D", "text": "Compra de lugares com visão parcial" }
+    ],
+    "correct": "C",
+    "tip": "Golpistas vendem ingressos falsificados ou cobram por ingressos que nunca serão entregues, prejudicando fãs que acreditam estar adquirindo ingressos legítimos."
+  },
+  {
+    "question": "Que fraude é comum na venda de carros usados online?",
+    "options": [
+      { "label": "A", "text": "Multas acumuladas propositalmente" },
+      { "label": "B", "text": "Veículo anunciado não existe ou tem problemas ocultos graves" },
+      { "label": "C", "text": "Venda de gasolina adulterada" },
+      { "label": "D", "text": "Desvio de IPVA pago" }
+    ],
+    "correct": "B",
+    "tip": "Anúncios enganosos oferecem veículos que não existem ou escondem problemas graves, como sinistros, gerando prejuízo financeiro e riscos para compradores."
+  },
+  {
+    "question": "Qual tipo de fraude ocorre com mais frequência em brechós virtuais de luxo?",
+    "options": [
+      { "label": "A", "text": "Venda de bolsas com zíper trocado" },
+      { "label": "B", "text": "Produtos falsificados vendidos como originais" },
+      { "label": "C", "text": "Encargos de lavagem obrigatórios" },
+      { "label": "D", "text": "Venda de roupas sem botão reserva" }
+    ],
+    "correct": "B",
+    "tip": "A falsificação é um problema comum em brechós virtuais de luxo, onde produtos supostamente originais são na verdade réplicas de baixa qualidade."
+  },
+  {
+    "question": "Que golpe é comum em marketplaces de itens colecionáveis de games?",
+    "options": [
+      { "label": "A", "text": "Itens virtuais vendidos e nunca entregues" },
+      { "label": "B", "text": "Venda de jogos físicos vencidos" },
+      { "label": "C", "text": "Invasão de contas por fãs" },
+      { "label": "D", "text": "Venda de consoles com vírus" }
+    ],
+    "correct": "A",
+    "tip": "Itens virtuais são anunciados e pagos, mas os golpistas não entregam, prejudicando jogadores que buscam aumentar seu inventário."
+  },
+  {
+    "question": "Qual armadilha digital afeta quem busca cursos de desenvolvimento pessoal?",
+    "options": [
+      { "label": "A", "text": "Cursos caros com promessas falsas de certificação internacional" },
+      { "label": "B", "text": "Livros didáticos com páginas repetidas" },
+      { "label": "C", "text": "Sessões em grupo com preço reduzido" },
+      { "label": "D", "text": "Consultorias gratuitas via videoconferência" }
+    ],
+    "correct": "A",
+    "tip": "Muitos cursos prometem certificações ou resultados milagrosos que não existem, cobrando valores altos e entregando pouco conteúdo útil."
+  },
+  {
+    "question": "Que fraude pode ocorrer em esquemas de investimentos de alto retorno rápido?",
+    "options": [
+      { "label": "A", "text": "Golpe de pirâmide ou esquema Ponzi" },
+      { "label": "B", "text": "Cashback diário garantido" },
+      { "label": "C", "text": "Venda de ações limitadas governamentais" },
+      { "label": "D", "text": "Desconto fixo em criptomoedas" }
+    ],
+    "correct": "A",
+    "tip": "Esquemas Ponzi atraem investidores prometendo retornos muito altos e rápidos, mas usam o dinheiro de novos investidores para pagar os antigos, colapsando eventualmente."
+  },
+  {
+    "question": "Qual golpe é comum em apps ou cursos online de meditação?",
+    "options": [
+      { "label": "A", "text": "Acesso a áudios muito curtos" },
+      { "label": "B", "text": "Cobranças recorrentes escondidas em testes gratuitos" },
+      { "label": "C", "text": "Perda de concentração coletiva" },
+      { "label": "D", "text": "Sessões gravadas sem áudio" }
+    ],
+    "correct": "B",
+    "tip": "Muitos apps ou cursos oferecem testes gratuitos, mas depois cobram assinaturas recorrentes difíceis de cancelar, prejudicando o consumidor."
+  },
+  {
+    "question": "Que tipo de fraude é frequente em eventos de empreendedorismo?",
+    "options": [
+      { "label": "A", "text": "Palestras que vendem produtos irreais ou promessas de sucesso garantido" },
+      { "label": "B", "text": "Falta de coffee break" },
+      { "label": "C", "text": "Ausência de palestrantes" },
+      { "label": "D", "text": "Cobrança de crachás" }
+    ],
+    "correct": "A",
+    "tip": "Alguns eventos prometem sucesso rápido e fácil, vendendo produtos ou métodos ineficazes que apenas geram prejuízo financeiro para os participantes."
+  },
+  {
+    "question": "Qual golpe costuma atingir doadores de causas ambientais falsas?",
+    "options": [
+      { "label": "A", "text": "Cobrança de taxas para doação" },
+      { "label": "B", "text": "Campanhas fraudulentas que usam imagens e histórias falsas para arrecadar dinheiro" },
+      { "label": "C", "text": "Doações obrigatórias em sites oficiais" },
+      { "label": "D", "text": "Descontos em lojas virtuais para doadores" }
+    ],
+    "correct": "B",
+    "tip": "Golpistas criam campanhas que aparentam ser de causas ambientais legítimas, mas usam dados falsos para enganar doadores e desviar recursos."
+  },
+  {
+    "question": "Qual golpe é comum em campanhas de adoção de animais online?",
+    "options": [
+      { "label": "A", "text": "Adoção sem visitas técnicas" },
+      { "label": "B", "text": "Cobrança antecipada para entrega de animais que não existem" },
+      { "label": "C", "text": "Oferta de rações grátis" },
+      { "label": "D", "text": "Campanhas com fotos de animais doados" }
+    ],
+    "correct": "B",
+    "tip": "Golpistas pedem pagamentos antecipados para adoção de animais que não existem ou nunca serão entregues, enganando os interessados."
+  },
+  {
+    "question": "Que fraude é comum em vídeos falsos de receitas virais?",
+    "options": [
+      { "label": "A", "text": "Vídeos que usam ingredientes falsificados ou instruções incorretas" },
+      { "label": "B", "text": "Vídeos sem áudio" },
+      { "label": "C", "text": "Vídeos com receitas tradicionais antigas" },
+      { "label": "D", "text": "Vídeos sem legendas" }
+    ],
+    "correct": "A",
+    "tip": "Vídeos que prometem receitas milagrosas podem conter informações falsas ou ingredientes que não existem, enganando quem tenta reproduzir."
+  },
+  {
+    "question": "Que tipo de fraude afeta lojas online de materiais de artesanato?",
+    "options": [
+      { "label": "A", "text": "Produtos entregues em embalagens recicladas" },
+      { "label": "B", "text": "Produtos anunciados que nunca são enviados após o pagamento" },
+      { "label": "C", "text": "Frete grátis apenas para grandes compras" },
+      { "label": "D", "text": "Promoções relâmpago com desconto real" }
+    ],
+    "correct": "B",
+    "tip": "Alguns vendedores fraudulentos anunciam produtos artesanais, recebem o pagamento, mas nunca enviam os itens aos compradores."
+  },
+  {
+    "question": "Qual golpe pode ocorrer na contratação de professores de dança pela internet?",
+    "options": [
+      { "label": "A", "text": "Profissionais que cobram e não oferecem aulas" },
+      { "label": "B", "text": "Aulas com foco apenas em ballet clássico" },
+      { "label": "C", "text": "Aulas gravadas com duração inferior a 10 minutos" },
+      { "label": "D", "text": "Promoção de aulas ao vivo gratuitas" }
+    ],
+    "correct": "A",
+    "tip": "Alguns “professores” cobram pelos cursos online, mas não entregam o conteúdo prometido, prejudicando quem busca aprendizado."
+  },
+  {
+    "question": "Que tipo de fraude é comum na venda de suplementos “cientificamente comprovados”?",
+    "options": [
+      { "label": "A", "text": "Suplementos com sabor artificial" },
+      { "label": "B", "text": "Produtos sem eficácia real, com testes falsificados" },
+      { "label": "C", "text": "Vendas com desconto para estudantes" },
+      { "label": "D", "text": "Produtos com garantia de satisfação" }
+    ],
+    "correct": "B",
+    "tip": "Muitos suplementos vendem-se como “cientificamente comprovados”, mas não passam de fraudes com dados e testes manipulados para enganar consumidores."
+  },
+  {
+    "question": "Qual golpe é comum em sites que vendem documentos históricos falsificados?",
+    "options": [
+      { "label": "A", "text": "Documentos entregues em papel reciclado" },
+      { "label": "B", "text": "Falta de tradução para vários idiomas" },
+      { "label": "C", "text": "Venda de documentos falsos com aparência legítima" },
+      { "label": "D", "text": "Documentos enviados por email lento" }
+    ],
+    "correct": "C",
+    "tip": "Golpistas fabricam documentos históricos falsos, vendendo-os para colecionadores e pesquisadores desavisados."
+  },
+  {
+    "question": "Que fraude pode ocorrer em perfis de falsos psicólogos nas redes sociais?",
+    "options": [
+      { "label": "A", "text": "Postagens de citações falsas" },
+      { "label": "B", "text": "Cobrança por consultas inexistentes e uso indevido de dados pessoais" },
+      { "label": "C", "text": "Compartilhamento de artigos científicos verdadeiros" },
+      { "label": "D", "text": "Divulgação de palestras gratuitas" }
+    ],
+    "correct": "B",
+    "tip": "Perfis falsos podem cobrar por consultas que não existem e ainda utilizar dados pessoais para outros golpes."
+  },
+  {
+    "question": "Que armadilha costuma aparecer em anúncios de consultoria de estilo?",
+    "options": [
+      { "label": "A", "text": "Consultores com redes sociais ativas" },
+      { "label": "B", "text": "Promessas exageradas de transformação rápida e cobrança antecipada" },
+      { "label": "C", "text": "Serviços gratuitos em troca de avaliações" },
+      { "label": "D", "text": "Fotos de clientes satisfeitos reais" }
+    ],
+    "correct": "B",
+    "tip": "Muitos anúncios prometem mudanças radicais em pouco tempo, cobrando antes do serviço e entregando pouco ou nada."
+  },
+  {
+    "question": "Que golpe usa memes virais para direcionar cliques a sites maliciosos?",
+    "options": [
+      { "label": "A", "text": "Memes compartilhados em grupos privados" },
+      { "label": "B", "text": "Memes com imagens oficiais de celebridades" },
+      { "label": "C", "text": "Links escondidos em memes que instalam malware ou roubam dados" },
+      { "label": "D", "text": "Memes com legendas educativas" }
+    ],
+    "correct": "C",
+    "tip": "Golpistas usam memes populares para atrair cliques em links maliciosos, infectando dispositivos ou coletando informações pessoais."
+  },
+  {
+    "question": "Que tipo de fraude é comum durante campanhas eleitorais online?",
+    "options": [
+      { "label": "A", "text": "Divulgação de propostas políticas oficiais" },
+      { "label": "B", "text": "Disseminação de notícias falsas (fake news) para manipular eleitores" },
+      { "label": "C", "text": "Divulgação de locais de votação reais" },
+      { "label": "D", "text": "Transmissão ao vivo de debates" }
+    ],
+    "correct": "B",
+    "tip": "Fake news são amplamente usadas para influenciar votos, confundindo eleitores com informações falsas e manipuladoras."
+  },
+  {
+    "question": "Qual golpe é frequente em sites que vendem objetos religiosos supostamente “milagrosos”?",
+    "options": [
+      { "label": "A", "text": "Doações voluntárias para igrejas" },
+      { "label": "B", "text": "Envio de amuletos com bênçãos oficiais" },
+      { "label": "C", "text": "Venda de objetos comuns como milagrosos para enganar compradores" },
+      { "label": "D", "text": "Promoção de cultos online gratuitos" }
+    ],
+    "correct": "C",
+    "tip": "Golpistas vendem objetos comuns, alegando propriedades milagrosas para obter lucro às custas da fé das pessoas."
+  },
+  {
+    "question": "Que tipo de fraude pode aparecer em grupos de fãs de séries de TV?",
+    "options": [
+      { "label": "A", "text": "Compartilhamento de episódios oficiais" },
+      { "label": "B", "text": "Discussão sobre teorias de personagens" },
+      { "label": "C", "text": "Links para downloads ilegais que instalam vírus" },
+      { "label": "D", "text": "Convites para eventos temáticos legítimos" }
+    ],
+    "correct": "C",
+    "tip": "Grupos podem conter links maliciosos disfarçados de downloads ou spoilers, que prejudicam os usuários ao infectar seus dispositivos."
+  },
+  {
+    "question": "Que armadilha é comum em plataformas que prometem pagar por ouvir podcasts?",
+    "options": [
+      { "label": "A", "text": "Não pagamento ou pagamento atrasado aos ouvintes" },
+      { "label": "B", "text": "Oferecer podcasts com conteúdo exclusivo" },
+      { "label": "C", "text": "Divulgação de podcasts patrocinados" },
+      { "label": "D", "text": "Uso de playlists personalizadas" }
+    ],
+    "correct": "A",
+    "tip": "Plataformas falsas atraem usuários prometendo remuneração por ouvir podcasts, mas não realizam os pagamentos conforme prometido."
+  },
+  {
+    "question": "Que fraude é comum em vendas de itens colecionáveis da cultura pop?",
+    "options": [
+      { "label": "A", "text": "Produtos com embalagem danificada" },
+      { "label": "B", "text": "Vendas com frete grátis para grandes pedidos" },
+      { "label": "C", "text": "Produtos falsificados ou não entregues após pagamento" },
+      { "label": "D", "text": "Promoção com brindes oficiais" }
+    ],
+    "correct": "C",
+    "tip": "Itens colecionáveis falsificados ou golpes onde o comprador paga, mas não recebe o produto, são frequentes no mercado online."
+  },
+  {
+    "question": "Que tipo de golpe é recorrente em sites de venda de design gráfico “exclusivo”?",
+    "options": [
+      { "label": "A", "text": "Designs com baixa resolução" },
+      { "label": "B", "text": "Venda de arquivos copiados ou não entregues" },
+      { "label": "C", "text": "Uso de fontes gratuitas" },
+      { "label": "D", "text": "Serviços com prazo estendido" }
+    ],
+    "correct": "B",
+    "tip": "Golpistas vendem arquivos de design que foram copiados de outros ou simplesmente não entregam o material após o pagamento."
+  },
+  {
+    "question": "Que fraude pode ocorrer em anúncios de projetos de arquitetura falsos?",
+    "options": [
+      { "label": "A", "text": "Projetos enviados em papel reciclado" },
+      { "label": "B", "text": "Uso de softwares ilegais" },
+      { "label": "C", "text": "Venda de projetos que nunca serão entregues ou são plagiados" },
+      { "label": "D", "text": "Cobrança de taxa para visita técnica" }
+    ],
+    "correct": "C",
+    "tip": "Projetos falsos são anunciados para captar clientes, mas nunca são entregues, ou são cópias de projetos de terceiros."
+  },
+  {
+    "question": "Que tipo de fraude ocorre com tutoriais DIY que pedem doações antecipadas?",
+    "options": [
+      { "label": "A", "text": "Entrega de materiais recicláveis" },
+      { "label": "B", "text": "Tutoriais com áudio ruim" },
+      { "label": "C", "text": "Não entrega do conteúdo prometido após a doação" },
+      { "label": "D", "text": "Tutoriais gratuitos com anúncios" }
+    ],
+    "correct": "C",
+    "tip": "Golpistas pedem doações para liberar tutoriais, mas não fornecem o conteúdo depois do pagamento."
+  },
+  {
+    "question": "Qual golpe é comum em vendas de kits de jardinagem milagrosos?",
+    "options": [
+      { "label": "A", "text": "Kits entregues em embalagens recicladas" },
+      { "label": "B", "text": "Produtos com promessas falsas de resultados rápidos e eficazes" },
+      { "label": "C", "text": "Frete grátis condicionado" },
+      { "label": "D", "text": "Kits com sementes comuns" }
+    ],
+    "correct": "B",
+    "tip": "Muitos kits prometem crescimento milagroso das plantas, mas não cumprem essas promessas, enganando compradores."
+  },
+  {
+    "question": "Que tipo de fraude pode ocorrer em cursos de educação online gratuitos?",
+    "options": [
+      { "label": "A", "text": "Captura de dados pessoais para uso indevido" },
+      { "label": "B", "text": "Vídeos com legendas automáticas" },
+      { "label": "C", "text": "Disponibilidade limitada de módulos" },
+      { "label": "D", "text": "Uso de professores temporários" }
+    ],
+    "correct": "A",
+    "tip": "Cursos gratuitos podem ser usados para coletar dados pessoais dos inscritos para venda ou uso em golpes posteriores."
+  },
+  {
+    "question": "Que fraude é comum em ofertas de cursos de programação ultra-rápidos?",
+    "options": [
+      { "label": "A", "text": "Conteúdo didático simplificado" },
+      { "label": "B", "text": "Promessas irreais de aprendizado em pouco tempo com conteúdo superficial" },
+      { "label": "C", "text": "Cursos com exercícios práticos" },
+      { "label": "D", "text": "Disponibilidade 24/7 do material" }
+    ],
+    "correct": "B",
+    "tip": "Muitos cursos prometem aprendizado completo e rápido, mas entregam conteúdo raso que não prepara adequadamente o aluno."
+  },
+  {
+    "question": "Que golpe pode afetar quem contrata serviços falsos de inteligência artificial?",
+    "options": [
+      { "label": "A", "text": "Software de código aberto gratuito" },
+      { "label": "B", "text": "Venda de soluções que não funcionam ou são fraudulentas" },
+      { "label": "C", "text": "Consultoria técnica real com preço justo" },
+      { "label": "D", "text": "Ofertas de teste grátis" }
+    ],
+    "correct": "B",
+    "tip": "Empresas ou pessoas vendem soluções falsas ou ineficazes, causando prejuízo financeiro e atraso em projetos."
+  },
+  {
+    "question": "Que fraude é comum em suplementos de “saúde e bem-estar” vendidos via redes sociais?",
+    "options": [
+      { "label": "A", "text": "Produtos certificados por órgãos oficiais" },
+      { "label": "B", "text": "Preços competitivos em lojas físicas" },
+      { "label": "C", "text": "Produtos sem comprovação científica e com riscos à saúde" },
+      { "label": "D", "text": "Promoções com descontos reais" }
+    ],
+    "correct": "C",
+    "tip": "Suplementos vendidos em redes sociais frequentemente não têm eficácia comprovada e podem causar efeitos adversos."
+  },
+  {
+    "question": "Que tipo de golpe ocorre em vendas de drones “profissionais” com câmera de alta resolução?",
+    "options": [
+      { "label": "A", "text": "Garantia estendida por fabricantes oficiais" },
+      { "label": "B", "text": "Assistência técnica 24 horas" },
+      { "label": "C", "text": "Venda de drones falsificados ou com especificações falsas" },
+      { "label": "D", "text": "Ofertas com acessórios originais" }
+    ],
+    "correct": "C",
+    "tip": "Golpistas anunciam drones profissionais com câmeras de alta qualidade, mas entregam produtos falsificados ou inferiores ao prometido."
+  }
+]
