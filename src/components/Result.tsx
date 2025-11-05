@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import { buttonClass } from '../styles/common';
 import { useSpeech } from '../hooks/useSpeech';
 
-import LadrãoFeliz from './Ladrao_triste.png';
-import LadrãoTriste from './Ladrao_feliz.png';
+import LadrãoFeliz from './Ladrao_feliz.png';
+import LadrãoTriste from './Ladrao_triste.png';
 
 interface ResultProps {
   isCorrect: boolean | null;

@@ -3,6 +3,7 @@ import { StepType } from '../features/SimuladorAntiGolpes';
 import { buttonClass } from '../styles/common';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { dbService } from '../services/database';
 
 interface RegistrationProps {
   setStep: (step: StepType) => void;
@@ -16,6 +17,8 @@ const Registration = ({ setStep }: RegistrationProps) => {
     password: ''
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -126,6 +129,12 @@ const Registration = ({ setStep }: RegistrationProps) => {
         </div>
       )}
 
+      {submitError && (
+        <div className="text-red-600 text-sm mt-2 text-center bg-red-50 p-2 rounded">
+          {submitError}
+        </div>
+      )}
+
       <div className="flex gap-3 mt-4">
         <motion.button 
           className={`${buttonClass} flex-1 bg-gray-400 hover:bg-gray-500`} 
@@ -137,16 +146,45 @@ const Registration = ({ setStep }: RegistrationProps) => {
         </motion.button>
         
         <motion.button 
-          className={`${buttonClass} flex-1 bg-blue-700 hover:g-blue-800 text-white`}
-          onClick={() => {
-            if (validateForm()) {
-              setStep('interests');
+          className={`${buttonClass} flex-1 bg-blue-700 hover:bg-blue-800 text-white ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={async () => {
+            if (validateForm() && !isLoading) {
+              setIsLoading(true);
+              setSubmitError('');
+              
+              try {
+                // Verifica se o email já está cadastrado
+                const existingUser = await dbService.getUserByEmail(formData.email);
+                if (existingUser) {
+                  setSubmitError('Este email já está cadastrado.');
+                  setIsLoading(false);
+                  return;
+                }
+
+                // Salva o usuário no banco de dados
+                await dbService.addUser({
+                  name: formData.name,
+                  email: formData.email,
+                  password: formData.password,
+                  score: 0
+                });
+
+                // Limpa o formulário e vai para a próxima tela
+                setFormData({ name: '', email: '', password: '' });
+                setStep('interests');
+              } catch (error) {
+                const errorMessage = error instanceof Error ? error.message : 'Erro ao cadastrar usuário. Tente novamente.';
+                setSubmitError(errorMessage);
+              } finally {
+                setIsLoading(false);
+              }
             }
           }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={isLoading ? {} : { scale: 1.03 }}
+          whileTap={isLoading ? {} : { scale: 0.98 }}
+          disabled={isLoading}
         >
-          Continuar
+          {isLoading ? 'Cadastrando...' : 'Continuar'}
         </motion.button>
       </div>
     </motion.div>

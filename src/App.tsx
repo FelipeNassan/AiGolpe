@@ -1,5 +1,8 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Users } from 'lucide-react';
 import SimuladorAntiGolpes from './features/SimuladorAntiGolpes';
+import AdminPanel from './components/AdminPanel';
 
 const themes: Record<string, { name: string; gradient: string }> = {
   default: { name: 'Padrão', gradient: 'from-purple-100 to-blue-100' },
@@ -31,12 +34,13 @@ function getRandomThemeKey() {
 
 function App() {
   const [theme, setTheme] = useState(getRandomThemeKey()); // tema aleatório ao montar
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${themes[theme].gradient} flex items-center justify-center p-4 relative transition-colors duration-500`}>
       
       {/* Combobox com preview */}
-      <div className="absolute top-4 right-4 bg-white bg-opacity-80 shadow-md rounded px-3 py-2">
+      <div className="absolute top-4 right-4 bg-white bg-opacity-80 shadow-md rounded px-3 py-2 z-10">
         <label className="text-sm font-semibold text-gray-800 mb-1 block">Temas de fundo:</label>
         <select
           value={theme}
@@ -51,7 +55,21 @@ function App() {
         </select>
       </div>
 
+      {/* Botão flutuante de administração */}
+      <motion.button
+        onClick={() => setIsAdminOpen(true)}
+        className="fixed bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-20 flex items-center gap-2"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        title="Gerenciar usuários"
+      >
+        <Users className="w-5 h-5" />
+      </motion.button>
+
       <SimuladorAntiGolpes />
+      
+      {/* Painel de administração */}
+      <AdminPanel isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
     </div>
   );
 }

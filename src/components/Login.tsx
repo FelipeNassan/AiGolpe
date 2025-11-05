@@ -3,19 +3,14 @@ import { StepType } from '../features/SimuladorAntiGolpes';
 import { buttonClass } from '../styles/common';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { dbService, User } from '../services/database';
 
 interface LoginProps {
   setStep: (step: StepType) => void;
+  onLoginSuccess: (user: string, userId: number) => void;
 }
 
-interface User {
-  email: string;
-  password: string;
-  name: string;
-  score: number;
-}
-
-const Login = ({ setStep }: LoginProps) => {
+const Login = ({ setStep, onLoginSuccess }: LoginProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -23,6 +18,7 @@ const Login = ({ setStep }: LoginProps) => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loginError, setLoginError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -54,25 +50,38 @@ const Login = ({ setStep }: LoginProps) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const checkCredentials = (): User | null => {
-    const usersJSON = localStorage.getItem('users');
-    if (!usersJSON) return null;
-
-    const users: User[] = JSON.parse(usersJSON);
-    return users.find(user => user.email === formData.email && user.password === formData.password) || null;
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoginError('');
-    if (validateForm()) {
-      const validUser = checkCredentials();
-      if (validUser) {
-        // Salva o usuário logado no localStorage para manter o estado de login
-        localStorage.setItem('currentUser', JSON.stringify(validUser));
-        // Vai para a tela dashboard, onde mostra o score e opções
-        setStep('dashboard');
-      } else {
-        setLoginError('Email ou senha incorretos.');
+    if (validateForm() && !isLoading) {
+      setIsLoading(true);
+      
+      try {
+        // Valida credenciais no banco de dados
+        const validUser = await dbService.validateCredentials(formData.email, formData.password);
+        
+        if (validUser) {
+          // Salva o usuário logado no localStorage para manter o estado de login
+          localStorage.setItem('currentUser', JSON.stringify({
+            id: validUser.id,
+            name: validUser.name,
+            email: validUser.email,
+            score: validUser.score
+          }));
+          
+          // Chama o callback de sucesso de login
+          if (validUser.id) {
+            onLoginSuccess(validUser.name, validUser.id);
+            // Vai para a tela de perfil
+            setStep('profile');
+          }
+        } else {
+          setLoginError('Email ou senha incorretos.');
+        }
+      } catch (error) {
+        setLoginError('Erro ao fazer login. Tente novamente.');
+        console.error('Erro no login:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -158,12 +167,13 @@ const Login = ({ setStep }: LoginProps) => {
         </motion.button>
         
         <motion.button 
-          className={`${buttonClass} flex-1 bg-blue-700 hover:bg-blue-800 text-white`}
+          className={`${buttonClass} flex-1 bg-blue-700 hover:bg-blue-800 text-white ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={handleSubmit}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={isLoading ? {} : { scale: 1.03 }}
+          whileTap={isLoading ? {} : { scale: 0.98 }}
+          disabled={isLoading}
         >
-          Continuar
+          {isLoading ? 'Entrando...' : 'Continuar'}
         </motion.button>
       </div>
     </motion.div>

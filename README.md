@@ -1,8 +1,8 @@
-# 🤖 AiGolpe
+# 🤖 Scam
 
 ## 📜 Descrição
 
-O **AiGolpe** é um projeto desenvolvido para a disciplina de **Estrutura de Dados e Análise de Algoritmos**.  
+O **Scam** é um projeto desenvolvido para a disciplina de **Estrutura de Dados e Análise de Algoritmos**.  
 Seu objetivo é criar um **jogo de perguntas e respostas** baseado em situações do cotidiano, com o propósito de **treinar e conscientizar pessoas sobre como identificar e evitar golpes**.
 
 ## 🎯 Funcionalidades

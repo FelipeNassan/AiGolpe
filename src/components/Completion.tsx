@@ -10,9 +10,10 @@ interface CompletionProps {
   setStep: (step: string) => void;
   resetQuiz: () => void;
   resetAll: () => void;
+  goToProfile?: () => void;
 }
 
-const Completion = ({ score, total, setStep, resetQuiz, resetAll }: CompletionProps) => {
+const Completion = ({ score, total, setStep, resetQuiz, resetAll, goToProfile }: CompletionProps) => {
   const percentage = Math.round((score / total) * 100);
 
   const [dimensions, setDimensions] = useState({
@@ -66,7 +67,7 @@ const Completion = ({ score, total, setStep, resetQuiz, resetAll }: CompletionPr
         </motion.div>
         
         <h2 className="text-2xl font-bold text-purple-700 mb-2">Parabéns!</h2>
-        <p className="mb-4 text-gray-700">Você concluiu o Simulador Educativo Anti-Golpes.</p>
+        <p className="mb-4 text-gray-700">Você concluiu o Scam - Simulador Educativo Anti-Golpes.</p>
         
         <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
@@ -86,15 +87,26 @@ const Completion = ({ score, total, setStep, resetQuiz, resetAll }: CompletionPr
           <p className="text-sm text-gray-600 mt-2">{message}</p>
         </div>
         
-        <div className="flex gap-3 justify-center">
-          <motion.button 
-            className={`${buttonClass} bg-blue-700 hover:bg-blue-800 text-white flex items-center justify-center`}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={resetQuiz}
-          >
-            Continuar
-          </motion.button>
+        <div className="flex gap-3 justify-center flex-wrap">
+          {goToProfile ? (
+            <motion.button 
+              className={`${buttonClass} bg-blue-700 hover:bg-blue-800 text-white flex items-center justify-center`}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={goToProfile}
+            >
+              Ver Meu Perfil
+            </motion.button>
+          ) : (
+            <motion.button 
+              className={`${buttonClass} bg-blue-700 hover:bg-blue-800 text-white flex items-center justify-center`}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={resetQuiz}
+            >
+              Continuar
+            </motion.button>
+          )}
           
           <motion.button 
             className={`${buttonClass} bg-blue-400 hover:bg-blue-500 text-white flex items-center justify-center`}

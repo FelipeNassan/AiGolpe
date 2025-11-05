@@ -20,7 +20,7 @@ const Welcome = ({ setStep }: WelcomeProps) => {
       </div>
       
       <h1 className="text-2xl font-bold text-center text-blue-700">
-        AiGolpe<br />Simulador educativo anti-golpes
+        Scam<br />Simulador educativo anti-golpes
       </h1>
 
       <p className="text-gray-600 text-center">
@@ -43,15 +43,6 @@ const Welcome = ({ setStep }: WelcomeProps) => {
         whileTap={{ scale: 0.98 }}
       >
         Registrar
-      </motion.button>
-      
-      <motion.button 
-        className={`${buttonClass} bg-blue-400 hover:bg-blue-500 text-white`} 
-        onClick={() => setStep('quiz')}
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        Continuar sem registrar
       </motion.button>
     </motion.div>
   );

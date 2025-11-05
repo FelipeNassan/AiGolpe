@@ -6,16 +6,19 @@ import Interests from '../components/Interests';
 import Quiz from '../components/Quiz';
 import Result from '../components/Result';
 import Completion from '../components/Completion';
+import UserProfile from '../components/UserProfile';
 import {
   questions as allOriginalQuestions,
   getRandomQuestions,
   QuestionType,
 } from '../data/questions';
+import { dbService } from '../services/database';
 
 export type StepType =
   | 'welcome'
   | 'register'
   | 'login'
+  | 'profile'
   | 'interests'
   | 'quiz'
   | 'result'
@@ -27,6 +30,7 @@ const SimuladorAntiGolpes = () => {
   
   // Usuário logado
   const [username, setUsername] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
 
   // Quiz state
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -39,19 +43,28 @@ const SimuladorAntiGolpes = () => {
     setShuffledQuizQuestions(getRandomQuestions(10));
   }, []);
 
-  // Ao logar, carregar score salvo do localStorage
+  // Ao logar, carregar score salvo do banco de dados
   useEffect(() => {
-    if (username) {
-      const savedScore = localStorage.getItem(`score_${username}`);
-      if (savedScore) {
-        setScore(Number(savedScore));
+    const loadUserScore = async () => {
+      if (userId) {
+        try {
+          const user = await dbService.getUserById(userId);
+          if (user) {
+            setScore(user.score);
+          } else {
+            setScore(0);
+          }
+        } catch (error) {
+          console.error('Erro ao carregar score:', error);
+          setScore(0);
+        }
       } else {
         setScore(0);
       }
-    } else {
-      setScore(0);
-    }
-  }, [username]);
+    };
+
+    loadUserScore();
+  }, [userId]);
 
   const currentQuizQuestion = shuffledQuizQuestions[questionIndex];
 
@@ -65,15 +78,39 @@ const SimuladorAntiGolpes = () => {
   };
 
   // Próxima pergunta
-  const nextQuestion = () => {
+  const nextQuestion = async () => {
     if (questionIndex + 1 < shuffledQuizQuestions.length) {
       setQuestionIndex(prev => prev + 1);
       setIsCorrect(null);
       setStep('quiz');
     } else {
-      // Salva score ao final do quiz, se logado
-      if (username) {
-        localStorage.setItem(`score_${username}`, score.toString());
+      // Salva histórico da partida e score ao final do quiz, se logado
+      if (userId) {
+        try {
+          const totalQuestions = shuffledQuizQuestions.length;
+          const percentage = Math.round((score / totalQuestions) * 100);
+          
+          // Salva histórico da partida
+          await dbService.saveQuizAttempt({
+            userId,
+            score,
+            totalQuestions,
+            percentage,
+          });
+          
+          // Atualiza score máximo do usuário
+          await dbService.updateUserScore(userId, score);
+          
+          // Atualiza também no localStorage para manter sincronizado
+          const currentUser = localStorage.getItem('currentUser');
+          if (currentUser) {
+            const user = JSON.parse(currentUser);
+            user.score = score;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+          }
+        } catch (error) {
+          console.error('Erro ao salvar histórico:', error);
+        }
       }
       setStep('end');
     }
@@ -91,6 +128,8 @@ const SimuladorAntiGolpes = () => {
   // Logout e reset geral
   const resetAll = () => {
     setUsername(null);
+    setUserId(null);
+    localStorage.removeItem('currentUser');
     setShuffledQuizQuestions(getRandomQuestions(10));
     setQuestionIndex(0);
     setScore(0);
@@ -99,9 +138,35 @@ const SimuladorAntiGolpes = () => {
   };
 
   // Login bem-sucedido
-  const onLoginSuccess = (user: string) => {
+  const onLoginSuccess = (user: string, id: number) => {
     setUsername(user);
+    setUserId(id);
   };
+  
+  // Voltar para o perfil após jogar
+  const goToProfile = () => {
+    setShuffledQuizQuestions(getRandomQuestions(10));
+    setQuestionIndex(0);
+    setScore(0);
+    setIsCorrect(null);
+    setStep('profile');
+  };
+
+  // Verifica se há usuário logado ao montar o componente
+  useEffect(() => {
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      try {
+        const userData = JSON.parse(currentUser);
+        if (userData.name && userData.id) {
+          setUsername(userData.name);
+          setUserId(userData.id);
+        }
+      } catch (error) {
+        console.error('Erro ao recuperar usuário logado:', error);
+      }
+    }
+  }, []);
 
 
   const canRenderQuiz = step === 'quiz' && currentQuizQuestion;
@@ -129,6 +194,20 @@ const SimuladorAntiGolpes = () => {
           nextQuestion={nextQuestion}
         />
       )}
+      {step === 'profile' && userId && username && (
+        <UserProfile
+          userId={userId}
+          userName={username}
+          onPlay={() => {
+            setShuffledQuizQuestions(getRandomQuestions(10));
+            setQuestionIndex(0);
+            setScore(0);
+            setIsCorrect(null);
+            setStep('quiz');
+          }}
+          onLogout={resetAll}
+        />
+      )}
       {step === 'end' && (
         <Completion
           score={score}
@@ -136,6 +215,7 @@ const SimuladorAntiGolpes = () => {
           setStep={setStep}
           resetQuiz={resetQuiz}
           resetAll={resetAll}
+          goToProfile={userId ? goToProfile : undefined}
         />
       )}
     </div>
