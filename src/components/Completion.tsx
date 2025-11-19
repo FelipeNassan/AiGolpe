@@ -109,12 +109,12 @@ const Completion = ({ score, total, setStep, resetQuiz, resetAll, goToProfile }:
           )}
           
           <motion.button 
-            className={`${buttonClass} bg-blue-400 hover:bg-blue-500 text-white flex items-center justify-center`}
+            className={`${buttonClass} bg-green-600 hover:bg-green-700 text-white flex items-center justify-center`}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            onClick={resetAll}
+            onClick={resetQuiz}
           >
-            Finalizar
+            Iniciar Nova Partida
           </motion.button>
         </div>
       </motion.div>

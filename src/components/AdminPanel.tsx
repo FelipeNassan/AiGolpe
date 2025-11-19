@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, X, Edit2, Trash2, Save, Eye, EyeOff } from 'lucide-react';
-import { dbService, User } from '../services/database';
+import { Users, X, Edit2, Trash2, Save, Eye, EyeOff, Search, BarChart3, TrendingUp, Trophy, UserCheck, FileQuestion } from 'lucide-react';
+import { userApi, User, quizAttemptApi, QuizAttempt } from '../services/api';
+import { getAllQuestions, QuestionType } from '../data/questions';
+import { interestsList } from '../data/interests';
 
 interface AdminPanelProps {
   isOpen: boolean;
@@ -10,30 +12,109 @@ interface AdminPanelProps {
 
 const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
   const [users, setUsers] = useState<User[]>([]);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [allAttempts, setAllAttempts] = useState<QuizAttempt[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<User>>({});
   const [error, setError] = useState('');
   const [showPasswords, setShowPasswords] = useState<Record<number, boolean>>({});
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // Estados para a aba de questões
+  const [activeTab, setActiveTab] = useState<'users' | 'questions'>('users');
+  const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
+  const [filteredQuestions, setFilteredQuestions] = useState<QuestionType[]>([]);
+  const [selectedInterestFilter, setSelectedInterestFilter] = useState<string>('all');
 
-  // Carregar usuários
+  // Carregar usuários e métricas
   const loadUsers = async () => {
     setLoading(true);
     setError('');
     try {
-      const allUsers = await dbService.getAllUsers();
-      setUsers(allUsers);
+      const loadedUsers = await userApi.getAllUsers();
+      setAllUsers(loadedUsers);
+      
+      // Carregar todas as tentativas para métricas
+      try {
+        const attempts = await quizAttemptApi.getAllQuizAttempts();
+        setAllAttempts(attempts);
+      } catch (err) {
+        console.error('Erro ao carregar tentativas:', err);
+      }
     } catch (err) {
-      setError('Erro ao carregar usuários');
+      setError('Erro ao carregar usuários. Verifique se a API está rodando na porta 8081.');
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Filtrar usuários baseado no termo de busca
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setUsers(allUsers);
+    } else {
+      const term = searchTerm.toLowerCase();
+      const filtered = allUsers.filter(
+        (user) =>
+          user.name.toLowerCase().includes(term) ||
+          user.email.toLowerCase().includes(term)
+      );
+      setUsers(filtered);
+    }
+  }, [searchTerm, allUsers]);
+
+  // Calcular métricas
+  const metrics = {
+    totalUsers: allUsers.length,
+    totalAttempts: allAttempts.length,
+    averageScore: allUsers.length > 0
+      ? Math.round((allUsers.reduce((sum, u) => sum + (u.score || 0), 0) / allUsers.length) * 10) / 10
+      : 0,
+    bestScore: allUsers.length > 0
+      ? Math.max(...allUsers.map(u => u.score || 0))
+      : 0,
+    averageAttemptScore: allAttempts.length > 0
+      ? Math.round((allAttempts.reduce((sum, a) => sum + a.score, 0) / allAttempts.length) * 10) / 10
+      : 0,
+  };
+
+  // Carregar questões
+  useEffect(() => {
+    if (isOpen && activeTab === 'questions') {
+      const questions = getAllQuestions();
+      setAllQuestions(questions);
+      setFilteredQuestions(questions);
+    }
+  }, [isOpen, activeTab]);
+
+  // Filtrar questões por interesse
+  useEffect(() => {
+    if (activeTab === 'questions') {
+      if (selectedInterestFilter === 'all') {
+        setFilteredQuestions(allQuestions);
+      } else {
+        const filtered = allQuestions.filter(question => 
+          question.interests && question.interests.includes(selectedInterestFilter)
+        );
+        setFilteredQuestions(filtered);
+      }
+    }
+  }, [selectedInterestFilter, allQuestions, activeTab]);
+
   useEffect(() => {
     if (isOpen) {
       loadUsers();
+      setSearchTerm('');
+      // Carregar questões quando abrir
+      const questions = getAllQuestions();
+      setAllQuestions(questions);
+      setFilteredQuestions(questions);
+    } else {
+      // Limpar filtro ao fechar
+      setSearchTerm('');
+      setSelectedInterestFilter('all');
     }
   }, [isOpen]);
 
@@ -73,7 +154,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
         return;
       }
 
-      await dbService.updateUser(editingId, {
+      await userApi.updateUser(editingId, {
         name: editForm.name!,
         email: editForm.email!,
         password: editForm.password || '',
@@ -96,7 +177,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
 
     setError('');
     try {
-      await dbService.deleteUser(userId);
+      await userApi.deleteUser(userId);
       await loadUsers();
     } catch (err) {
       setError('Erro ao remover usuário');
@@ -105,8 +186,9 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
   };
 
   // Formatar data
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleString('pt-BR');
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'Data não disponível';
+    return new Date(dateString).toLocaleString('pt-BR');
   };
 
   // Toggle mostrar senha
@@ -132,14 +214,43 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-2">
               <Users className="text-blue-600 w-6 h-6" />
-              <h2 className="text-xl font-bold text-gray-800">Gerenciar Usuários</h2>
-              <span className="text-sm text-gray-500">({users.length} usuário{users.length !== 1 ? 's' : ''})</span>
+              <h2 className="text-xl font-bold text-gray-800">Painel Administrativo</h2>
             </div>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
               <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex border-b">
+            <button
+              onClick={() => setActiveTab('users')}
+              className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+                activeTab === 'users'
+                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <Users className="w-4 h-4" />
+                Usuários
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('questions')}
+              className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+                activeTab === 'questions'
+                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <FileQuestion className="w-4 h-4" />
+                Questões
+              </div>
             </button>
           </div>
 
@@ -151,10 +262,182 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
               </div>
             )}
 
+            {/* Conteúdo da aba de Questões */}
+            {activeTab === 'questions' && (
+              <div>
+                {/* Filtro por Interesse */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Filtrar por Interesse
+                  </label>
+                  <select
+                    value={selectedInterestFilter}
+                    onChange={(e) => setSelectedInterestFilter(e.target.value)}
+                    className="w-full md:w-auto px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                  >
+                    <option value="all">Todos os Interesses</option>
+                    {interestsList.map((interest) => (
+                      <option key={interest.name} value={interest.name}>
+                        {interest.name}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="text-sm text-gray-500 mt-2">
+                    Mostrando {filteredQuestions.length} de {allQuestions.length} questão{allQuestions.length !== 1 ? 'ões' : ''}
+                    {selectedInterestFilter !== 'all' && (
+                      <span> relacionadas a "{selectedInterestFilter}"</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Lista de Questões */}
+                {filteredQuestions.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    {selectedInterestFilter === 'all' 
+                      ? 'Nenhuma questão cadastrada'
+                      : `Nenhuma questão encontrada para o interesse "${selectedInterestFilter}"`
+                    }
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {filteredQuestions.map((question, index) => (
+                      <div
+                        key={index}
+                        className="border rounded-lg p-4 hover:shadow-md transition-shadow bg-white"
+                      >
+                        <div className="mb-3">
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className="font-semibold text-gray-800 flex-1">
+                              {index + 1}. {question.question}
+                            </h3>
+                          </div>
+                          
+                          {/* Alternativas */}
+                          <div className="space-y-2 mt-3">
+                            {question.options.map((opt) => (
+                              <div
+                                key={opt.label}
+                                className={`p-2 rounded ${
+                                  opt.label === question.correct
+                                    ? 'bg-green-50 border border-green-200'
+                                    : 'bg-gray-50'
+                                }`}
+                              >
+                                <span className="font-semibold text-gray-700">
+                                  {opt.label}:
+                                </span>{' '}
+                                <span className={opt.label === question.correct ? 'text-green-700 font-medium' : 'text-gray-600'}>
+                                  {opt.text}
+                                </span>
+                                {opt.label === question.correct && (
+                                  <span className="ml-2 text-green-600 font-semibold text-xs">
+                                    ✓ Correta
+                                  </span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Dica */}
+                          <div className="mt-3 p-2 bg-blue-50 rounded border border-blue-200">
+                            <span className="text-xs font-semibold text-blue-700">Dica: </span>
+                            <span className="text-sm text-blue-800">{question.tip}</span>
+                          </div>
+
+                          {/* Interesses relacionados */}
+                          {question.interests && question.interests.length > 0 && (
+                            <div className="mt-3 flex flex-wrap gap-1">
+                              <span className="text-xs font-semibold text-gray-600 mr-1">Interesses:</span>
+                              {question.interests.map((interest, idx) => (
+                                <span
+                                  key={idx}
+                                  className="px-2 py-1 bg-pink-100 text-pink-800 rounded-full text-xs font-medium"
+                                >
+                                  {interest}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Conteúdo da aba de Usuários */}
+            {activeTab === 'users' && (
+              <>
+                {/* Métricas Gerais */}
+            {!loading && (
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Métricas Gerais</h3>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <UserCheck className="w-4 h-4 text-blue-600" />
+                      <span className="text-xs font-medium text-gray-600">Total Usuários</span>
+                    </div>
+                    <div className="text-xl font-bold text-blue-700">{metrics.totalUsers}</div>
+                  </div>
+                  <div className="bg-green-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <BarChart3 className="w-4 h-4 text-green-600" />
+                      <span className="text-xs font-medium text-gray-600">Total Tentativas</span>
+                    </div>
+                    <div className="text-xl font-bold text-green-700">{metrics.totalAttempts}</div>
+                  </div>
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp className="w-4 h-4 text-purple-600" />
+                      <span className="text-xs font-medium text-gray-600">Média Score</span>
+                    </div>
+                    <div className="text-xl font-bold text-purple-700">{metrics.averageScore.toFixed(1)}</div>
+                  </div>
+                  <div className="bg-yellow-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Trophy className="w-4 h-4 text-yellow-600" />
+                      <span className="text-xs font-medium text-gray-600">Melhor Score</span>
+                    </div>
+                    <div className="text-xl font-bold text-yellow-700">{metrics.bestScore}</div>
+                  </div>
+                  <div className="bg-indigo-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp className="w-4 h-4 text-indigo-600" />
+                      <span className="text-xs font-medium text-gray-600">Média Tentativas</span>
+                    </div>
+                    <div className="text-xl font-bold text-indigo-700">{metrics.averageAttemptScore.toFixed(1)}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Filtro de Busca */}
+            {!loading && allUsers.length > 0 && (
+              <div className="mb-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Buscar por nome ou email..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div className="text-sm text-gray-500 mt-2">
+                  Mostrando {users.length} de {allUsers.length} usuário{allUsers.length !== 1 ? 's' : ''}
+                </div>
+              </div>
+            )}
+
             {loading ? (
               <div className="text-center py-8 text-gray-500">Carregando usuários...</div>
             ) : users.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">Nenhum usuário cadastrado</div>
+              <div className="text-center py-8 text-gray-500">
+                {searchTerm ? 'Nenhum usuário encontrado com o termo de busca' : 'Nenhum usuário cadastrado'}
+              </div>
             ) : (
               <div className="space-y-3">
                 {users.map((user) => (
@@ -280,6 +563,8 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
                   </div>
                 ))}
               </div>
+            )}
+              </>
             )}
           </div>
 

@@ -3,7 +3,7 @@ import { StepType } from '../features/SimuladorAntiGolpes';
 import { buttonClass } from '../styles/common';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { dbService } from '../services/database';
+import { userApi } from '../services/api';
 
 interface RegistrationProps {
   setStep: (step: StepType) => void;
@@ -154,26 +154,31 @@ const Registration = ({ setStep }: RegistrationProps) => {
               
               try {
                 // Verifica se o email já está cadastrado
-                const existingUser = await dbService.getUserByEmail(formData.email);
+                const existingUser = await userApi.getUserByEmail(formData.email);
                 if (existingUser) {
                   setSubmitError('Este email já está cadastrado.');
                   setIsLoading(false);
                   return;
                 }
 
-                // Salva o usuário no banco de dados
-                await dbService.addUser({
+                // Salva o usuário na API
+                const newUser = await userApi.createUser({
                   name: formData.name,
                   email: formData.email,
                   password: formData.password,
                   score: 0
                 });
 
+                // Salva o userId temporariamente no localStorage para o Interests usar
+                if (newUser.id) {
+                  localStorage.setItem('tempUserId', newUser.id.toString());
+                }
+
                 // Limpa o formulário e vai para a próxima tela
                 setFormData({ name: '', email: '', password: '' });
                 setStep('interests');
               } catch (error) {
-                const errorMessage = error instanceof Error ? error.message : 'Erro ao cadastrar usuário. Tente novamente.';
+                const errorMessage = error instanceof Error ? error.message : 'Erro ao cadastrar usuário. Verifique se a API está rodando na porta 8081.';
                 setSubmitError(errorMessage);
               } finally {
                 setIsLoading(false);

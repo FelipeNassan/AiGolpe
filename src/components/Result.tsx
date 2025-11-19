@@ -12,7 +12,7 @@ interface ResultProps {
 }
 
 const Result = ({ isCorrect, tip, nextQuestion }: ResultProps) => {
-  const { playAudio } = useSpeech();
+  const { playAudio, isSpeaking } = useSpeech();
 
   return (
     <motion.div 
@@ -30,8 +30,8 @@ const Result = ({ isCorrect, tip, nextQuestion }: ResultProps) => {
         className="mb-4"
       >
         <img
-          src={isCorrect ? LadrãoFeliz : LadrãoTriste}
-          alt={isCorrect ? "Ladrão feliz" : "Ladrão triste"}
+          src={isCorrect ? LadrãoTriste : LadrãoFeliz }
+          alt={isCorrect ? "Ladrão triste" : "Ladrão feliz" }
           className="w-21 h-21 mx-auto"
         />
       </motion.div>
@@ -46,13 +46,17 @@ const Result = ({ isCorrect, tip, nextQuestion }: ResultProps) => {
         </div>
         <p className="text-gray-700">{tip}</p>
         <motion.button
-          className="text-blue-500 p-1 rounded-full hover:bg-blue-50 transition-colors mt-2 text-sm inline-flex items-center"
+          className={`p-1 rounded-full transition-colors mt-2 text-sm inline-flex items-center ${
+            isSpeaking 
+              ? 'bg-blue-500 text-white' 
+              : 'text-blue-500 hover:bg-blue-50'
+          }`}
           onClick={() => playAudio(tip)}
-          title="Ouvir dica"
+          title={isSpeaking ? "Parar áudio" : "Ouvir dica"}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <span className="ml-1">Ouvir</span>
+          <span className="ml-1">{isSpeaking ? 'Parar' : 'Ouvir'}</span>
         </motion.button>
       </div>
 

@@ -1,4 +1,8 @@
-// Serviço de banco de dados local usando IndexedDB
+// ⚠️ ARQUIVO OBSOLETO - NÃO ESTÁ MAIS SENDO USADO
+// Este arquivo foi substituído por api.ts que conecta com a API Spring Boot
+// Mantido apenas como referência/backup
+// 
+// Serviço de banco de dados local usando IndexedDB (LEGADO)
 
 export interface User {
   id?: number;

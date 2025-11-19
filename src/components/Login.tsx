@@ -3,7 +3,7 @@ import { StepType } from '../features/SimuladorAntiGolpes';
 import { buttonClass } from '../styles/common';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { dbService, User } from '../services/database';
+import { userApi, User } from '../services/api';
 
 interface LoginProps {
   setStep: (step: StepType) => void;
@@ -56,8 +56,8 @@ const Login = ({ setStep, onLoginSuccess }: LoginProps) => {
       setIsLoading(true);
       
       try {
-        // Valida credenciais no banco de dados
-        const validUser = await dbService.validateCredentials(formData.email, formData.password);
+        // Valida credenciais na API
+        const validUser = await userApi.validateCredentials(formData.email, formData.password);
         
         if (validUser) {
           // Salva o usuário logado no localStorage para manter o estado de login
@@ -78,7 +78,7 @@ const Login = ({ setStep, onLoginSuccess }: LoginProps) => {
           setLoginError('Email ou senha incorretos.');
         }
       } catch (error) {
-        setLoginError('Erro ao fazer login. Tente novamente.');
+        setLoginError('Erro ao fazer login. Verifique se a API está rodando na porta 8081.');
         console.error('Erro no login:', error);
       } finally {
         setIsLoading(false);
